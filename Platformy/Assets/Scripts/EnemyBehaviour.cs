@@ -12,41 +12,67 @@ public enum MovementDirection
 public class EnemyBehaviour : Interactable
 {
     [SerializeField] private int coinAmountDrop;
-
-    public int CoinAmountDrop => coinAmountDrop;
-
+    
+    private EnemySpawner spawner;
+    
     [SerializeField] private MovementDirection direction;
-
+    private Animator animation;
+    public int CoinAmountDrop => coinAmountDrop;
     public MovementDirection Direction
     {
         set => direction = value;
     }
-
-    private EnemySpawner spawner;
-
+    
     public EnemySpawner Spawner
     {
         set => spawner = value;
     }
 
-    // Update is called once per frame
+    private void Start()
+    {
+        transform.localScale = new Vector3(Convert.ToInt32(direction) * transform.localScale.x,
+            transform.localScale.y,transform.localScale.z);
+        canInteract = true;
+
+        animation = GetComponent<Animator>();
+    }
+
     void Update()
     {
-        Movement();
+        if (canInteract)
+        {
+            Movement();
+            animation.SetTrigger("Move");
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D col)
     {
-        if (col.gameObject.CompareTag("Wall"))
+        
+        if (col.gameObject.CompareTag("Wall") || col.gameObject.CompareTag("BlockEverything"))
         {
             if (direction == MovementDirection.Left)
-            {
+            { 
                 direction = MovementDirection.Right;
             }
             else
-            {
+            { 
                 direction = MovementDirection.Left;
             }
+            
+            transform.localScale = new Vector3(Convert.ToInt32(direction) * Math.Abs(transform.localScale.x),
+                transform.localScale.y,transform.localScale.z);
+
+        }
+            
+        if (col.gameObject.CompareTag("Player"))
+        { 
+            CollisionWithPlayerAction();
+        }
+
+        if (col.gameObject.CompareTag("Coin"))
+        {
+            Physics2D.IgnoreCollision(GetComponent<BoxCollider2D>(),col.collider);
         }
     }
 
@@ -55,14 +81,16 @@ public class EnemyBehaviour : Interactable
         transform.Translate(new Vector3(Convert.ToInt32(direction) * Time.deltaTime,0));
     }
 
-    public override void OnCollisionWithPlayerAction()
+    public override void CollisionWithPlayerAction()
     {
-        GetComponent<BoxCollider2D>().enabled = false;
-        Destroy(gameObject,2);
-    }
-
-    private void OnDestroy()
-    {
+        CoinManager.instance.GenerateCoins(coinAmountDrop,transform.position);
+        
+        GetComponent<Rigidbody2D>().simulated = false;
+        canInteract = false;
+        
         spawner.StartCoroutine(spawner.SpawnEnemy());
+        
+        animation.SetTrigger("Die");
+        Destroy(gameObject,2);
     }
 }

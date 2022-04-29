@@ -16,4 +16,11 @@ public class GameManager : MonoBehaviour
 
         instance = this;
     }
+
+    private int score;
+
+    public void AddScore(int value)
+    {
+        score += value;
+    }
 }

@@ -7,16 +7,18 @@ TagManager:
   - Wall
   - Enemy
   - Coin
+  - BlockEverything
+  - JumpReset
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Level
   - Water
   - UI
-  - 
-  - 
-  - 
+  - Coins
+  - Enemies
+  - Player
   - 
   - 
   - 
@@ -47,9 +49,9 @@ TagManager:
   - name: Enemies
     uniqueID: 1583766547
     locked: 0
-  - name: Coin
-    uniqueID: 624933719
-    locked: 0
   - name: Player
     uniqueID: 1875320261
+    locked: 0
+  - name: Coin
+    uniqueID: 624933719
     locked: 0

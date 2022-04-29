@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class Interactable : MonoBehaviour
 {
-    public virtual void OnCollisionWithPlayerAction()
+    protected bool canInteract;
+    public virtual void CollisionWithPlayerAction()
     {
         
     }
