@@ -1,18 +1,22 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Coin : MonoBehaviour
+public class Coin : Interactable
 {
-    // Start is called before the first frame update
-    void Start()
+    private void Start()
+    {
+        StartCoroutine(Waiter());
+    }
+
+    private void Update()
     {
         
     }
 
-    // Update is called once per frame
-    void Update()
+    private IEnumerator Waiter()
     {
-        
+        yield return new WaitForSeconds(2);
     }
 }
