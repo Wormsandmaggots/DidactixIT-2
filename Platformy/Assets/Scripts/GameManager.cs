@@ -22,5 +22,6 @@ public class GameManager : MonoBehaviour
     public void AddScore(int value)
     {
         score += value;
+        UIManager.instance.UpdateScore(score);
     }
 }

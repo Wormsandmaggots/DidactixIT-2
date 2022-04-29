@@ -5,6 +5,7 @@ using UnityEngine;
 public class Interactable : MonoBehaviour
 {
     protected bool canInteract;
+    public bool CanInteract => canInteract;
     public virtual void CollisionWithPlayerAction()
     {
         

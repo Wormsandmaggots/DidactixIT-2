@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
@@ -15,5 +16,16 @@ public class UIManager : MonoBehaviour
         }
 
         instance = this;
+
+        scoreText.text = "0";
+    }
+
+    [SerializeField] private Text scoreText;
+    [SerializeField] private Animator scoreAnimation;
+
+    public void UpdateScore(int value)
+    {
+        scoreText.text = value.ToString();
+        scoreAnimation.SetTrigger("GainPoint");
     }
 }

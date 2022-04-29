@@ -10,10 +10,18 @@ public class Player : MonoBehaviour
     [SerializeField] private float jumpPower;
     private bool canJump = true;
     private BoxCollider2D collider;
+    private Animator animation;
+
+    public bool CanJump
+    {
+        set => canJump = value;
+    }
+    
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         collider = GetComponent<BoxCollider2D>();
+        animation = GetComponent<Animator>();
     }
 
     void Update()
@@ -25,6 +33,20 @@ public class Player : MonoBehaviour
     private void Movement()
     {
         float x = Input.GetAxisRaw("Horizontal");
+
+        if (x == 1 || x == -1)
+        {
+            transform.localScale = new Vector3(Math.Abs(transform.localScale.x) * x, transform.localScale.y, transform.localScale.z);
+        }
+
+        if (x == 0)
+        {
+            animation.SetTrigger("Idle");    
+        }
+        else
+        {
+            animation.SetTrigger("Move");
+        }
         
         transform.Translate(new Vector3(x * movingSpeed * Time.deltaTime,0));
     }
@@ -40,27 +62,9 @@ public class Player : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D col)
     {
-        if (col.gameObject.CompareTag("JumpReset"))
-        {
-            canJump = true;
-        }
-
         if (col.gameObject.CompareTag("Wall"))
         {
             Physics2D.IgnoreCollision(col.collider,collider);
-        }
-    }
-
-    private void OnCollisionStay2D(Collision2D collision)
-    {
-        if (collision.gameObject.CompareTag("JumpReset"))
-        {
-            canJump = true;
-        }
-        
-        if (collision.gameObject.CompareTag("Wall"))
-        {
-            Physics2D.IgnoreCollision(collision.collider,collider);
         }
     }
 }
