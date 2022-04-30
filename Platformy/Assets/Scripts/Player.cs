@@ -6,11 +6,11 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     [SerializeField] private float movingSpeed;
-    private Rigidbody2D rb;
+    private Rigidbody2D rb = new Rigidbody2D();
     [SerializeField] private float jumpPower;
     private bool canJump = true;
-    private BoxCollider2D collider;
-    private Animator animation;
+    private BoxCollider2D collider = new BoxCollider2D();
+    private Animator animation = new Animator();
 
     public bool CanJump
     {

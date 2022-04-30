@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Coin : Interactable
 {
-    private CircleCollider2D collider;
+    private CircleCollider2D collider = new CircleCollider2D();
     private void Start()
     {
         StartCoroutine(Waiter());

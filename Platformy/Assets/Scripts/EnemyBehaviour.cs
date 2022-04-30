@@ -16,7 +16,7 @@ public class EnemyBehaviour : Interactable
     private EnemySpawner spawner;
     
     [SerializeField] private MovementDirection direction;
-    private Animator animation;
+    private Animator animation = new Animator();
     public int CoinAmountDrop => coinAmountDrop;
     public MovementDirection Direction
     {
